@@ -19,7 +19,7 @@ namespace ShunterPhysics
 
         public void Tick(float throttle, float deltaT)
         {
-            TractiveEffort = _shunterLocoSimulation.Tick(throttle, Speed);
+            TractiveEffort = _shunterLocoSimulation.Tick(throttle, Speed, deltaT);
 
             Acceleration = TractiveEffort / TrainMass;
 
@@ -31,6 +31,8 @@ namespace ShunterPhysics
             Speed = 0.0f;
             TractiveEffort = 0.0f;
             Acceleration = 0.0f;
+
+            _shunterLocoSimulation.Reset();
         }
     }
 }

@@ -7,11 +7,12 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <StackPanel>
-        <Slider HorizontalAlignment="Stretch" Margin="0" VerticalAlignment="Top" Name="Throttle" Minimum="0.0" Maximum="1.0"/>
+        <Slider HorizontalAlignment="Stretch" Margin="0" VerticalAlignment="Top" Name="Throttle" Minimum="0.0" Maximum="1.0" IsSnapToTickEnabled="True" TickFrequency="0.1"/>
         <Label Content="{Binding Path=Value, ElementName=Throttle}" ContentStringFormat="Throttle: {0:0%}" HorizontalAlignment="Stretch"/>
         <Label Content="0.0" ContentStringFormat="Tractive Effort: {0:F1} kN" HorizontalAlignment="Stretch" Name="TELabel"/>
         <Label Content="0.0" ContentStringFormat="Acceleration: {0:F0} m/s²" HorizontalAlignment="Stretch" Name="AccelerationLabel"/>
         <Label Content="0.0" ContentStringFormat="Speed: {0:F0} km/h" HorizontalAlignment="Stretch" Name="SpeedLabel"/>
+        <Label Content="0.0" ContentStringFormat="EngineRPM: {0:F0} rpm" HorizontalAlignment="Stretch" Name="EngRPMLabel"/>
         <Button x:Name="ResetButton" Content="Reset" Click="ResetButton_Click"/>
     </StackPanel>
 </Window>

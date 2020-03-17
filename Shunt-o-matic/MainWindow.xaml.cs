@@ -43,6 +43,8 @@ namespace Shunt_o_matic
             TELabel.Content = _trainSimulation.TractiveEffort / 1000.0f;
             AccelerationLabel.Content = _trainSimulation.Acceleration;
             SpeedLabel.Content = _trainSimulation.Speed * 3.6f;
+            EngRPMLabel.Content = _shunterLocoSimulation.EngineAngularSpeedAsFractionOfRange *
+                                  ShunterLocoSimulation.MaxEngineRPM + ShunterLocoSimulation.IdleEngineRPM;
         }
 
         private void ResetButton_Click(object sender, RoutedEventArgs e)

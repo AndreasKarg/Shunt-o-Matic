@@ -1,5 +1,7 @@
 ﻿using System;
+using GameCloud.Unity.Common;
 using UnityEngine;
+using UnityEngine.VR;
 
 namespace ShunterPhysics
 {
@@ -8,10 +10,34 @@ namespace ShunterPhysics
         private const float MaxTractiveEffort = 120.0e3f; // Newtons
         private const float MaxPower = 450.0e3f; // Watts
 
-        private const float IdleEngineAngularSpeed = (float)(350.0 * (2.0 * Math.PI / 60.0)); // rpm with conversion to rad/sec in brackets
-        private const float MaxEngineAngularSpeed = (float)(850.0 * (2.0 * Math.PI / 60.0)); // rpm with conversion to rad/sec in brackets
+        public const float IdleEngineRPM = 350.0f; // rpm
+        public const float MaxEngineRPM = 850.0f; // rpm
+        public const float EngineRPMChangePerSecond = 100.0f; // rpm/s
 
-        public float Tick(float throttle, float speed)
+        private const float EngineSpeedChangePerSecondAsFractionOfRpmRange = EngineRPMChangePerSecond / (MaxEngineRPM - IdleEngineRPM);
+
+        public float EngineAngularSpeedAsFractionOfRange { get; private set; } = 0.0f; // offset by IdleEngineRPM for display
+
+
+        public float Tick(float throttle, float speed, float deltaT)
+        {
+            UpdateEngineSpeed(throttle, deltaT);
+            return CalculateTractiveEffort(speed);
+        }
+
+        private void UpdateEngineSpeed(float throttle, float deltaT)
+        {
+            var engineSpeedError = throttle - EngineAngularSpeedAsFractionOfRange;
+            var possibleEngineSpeedChangeThisTick =
+                deltaT * EngineSpeedChangePerSecondAsFractionOfRpmRange;
+
+            var actualEngineSpeedChange = Math.Min(Math.Abs(engineSpeedError), possibleEngineSpeedChangeThisTick);
+
+            var newEngineSpeedUnclamped = EngineAngularSpeedAsFractionOfRange + Math.Sign(engineSpeedError)* actualEngineSpeedChange;
+            EngineAngularSpeedAsFractionOfRange = Mathf.Clamp01(newEngineSpeedUnclamped);
+        }
+
+        private float CalculateTractiveEffort(float speed)
         {
             var maxTractiveEffortAtCurrentSpeedAndMaxPower = MaxPower / speed;
             if (float.IsNaN(maxTractiveEffortAtCurrentSpeedAndMaxPower))
@@ -20,9 +46,14 @@ namespace ShunterPhysics
             var actualMaxTractiveEffort =
                 Mathf.Clamp(maxTractiveEffortAtCurrentSpeedAndMaxPower, 0.0f, MaxTractiveEffort);
 
-            var actualTractiveEffort = throttle * actualMaxTractiveEffort;
+            var actualTractiveEffort = EngineAngularSpeedAsFractionOfRange * actualMaxTractiveEffort;
 
             return actualTractiveEffort;
+        }
+
+        public void Reset()
+        {
+            EngineAngularSpeedAsFractionOfRange = 0.0f;
         }
     }
 }
