@@ -1,0 +1,17 @@
+﻿<Window x:Class="Shunt_o_matic.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Shunt_o_matic"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <StackPanel>
+        <Slider HorizontalAlignment="Stretch" Margin="0" VerticalAlignment="Top" Name="Throttle" Minimum="0.0" Maximum="1.0"/>
+        <Label Content="{Binding Path=Value, ElementName=Throttle}" ContentStringFormat="Throttle: {0:0%}" HorizontalAlignment="Stretch"/>
+        <Label Content="0.0" ContentStringFormat="Tractive Effort: {0:F1} kN" HorizontalAlignment="Stretch" Name="TELabel"/>
+        <Label Content="0.0" ContentStringFormat="Acceleration: {0:F0} m/s²" HorizontalAlignment="Stretch" Name="AccelerationLabel"/>
+        <Label Content="0.0" ContentStringFormat="Speed: {0:F0} km/h" HorizontalAlignment="Stretch" Name="SpeedLabel"/>
+        <Button x:Name="ResetButton" Content="Reset" Click="ResetButton_Click"/>
+    </StackPanel>
+</Window>
