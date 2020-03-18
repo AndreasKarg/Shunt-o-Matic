@@ -4,7 +4,6 @@
 // MVID: 9379D573-50CB-4E58-8F83-33F4D448217F
 // Assembly location: E:\SteamLibrary\steamapps\common\Derail Valley\DerailValley_Data\Managed\Assembly-CSharp.dll
 
-using Newtonsoft.Json.Linq;
 using UnityEngine;
 
 public class SimComponent

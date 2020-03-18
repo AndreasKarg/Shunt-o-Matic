@@ -1,5 +1,4 @@
 ﻿using System;
-using GameCloud.Unity.Common;
 using UnityEngine;
 using UnityEngine.VR;
 
@@ -17,7 +16,7 @@ namespace ShunterPhysics
         private const float EngineSpeedChangePerSecondAsFractionOfRpmRange = EngineRPMChangePerSecond / (MaxEngineRPM - IdleEngineRPM);
 
         public float EngineAngularSpeedAsFractionOfRange { get; private set; } = 0.0f; // offset by IdleEngineRPM for display
-
+        public float EngineActualRpm => EngineAngularSpeedAsFractionOfRange * (MaxEngineRPM - IdleEngineRPM) + IdleEngineRPM;
 
         public float Tick(float throttle, float speed, float deltaT)
         {
